@@ -32,6 +32,7 @@ export class ChannelController {
     if (channel.user.id !== user.id) {
       throw new UnauthorizedException('Unauthorized user');
     }
+    return channel;
   }
 
   @Get()
