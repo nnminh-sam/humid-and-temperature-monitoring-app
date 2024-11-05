@@ -54,6 +54,6 @@ export class ChannelController {
     @Param('id') id: string,
     @Body() updateChannelDto: UpdateChannelDto,
   ) {
-    return await this.channelService.update(user, id, updateChannelDto);
+    return await this.channelService.update(user.id, id, updateChannelDto);
   }
 }

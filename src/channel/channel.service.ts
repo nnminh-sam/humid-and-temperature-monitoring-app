@@ -87,7 +87,7 @@ export class ChannelService {
 
     try {
       const channelDocument: ChannelDocument = await this.channelModel
-        .findByIdAndUpdate()
+        .findByIdAndUpdate(channelId, { ...payload }, { new: true })
         .exec();
       return await this.findById(channelDocument._id.toString());
     } catch (error: any) {
