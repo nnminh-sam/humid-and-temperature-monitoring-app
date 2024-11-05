@@ -64,7 +64,7 @@ export class UserService {
         _id: id,
         deletedAt: null,
       })
-      .select('-password -deletedAt')
+      .select('-password -deletedAt -__v')
       .transform(transformMongooseDocument)
       .exec();
   }
