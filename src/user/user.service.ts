@@ -40,13 +40,16 @@ export class UserService {
   }
 
   async create(payload: CreateUserDto) {
-    const isEmailExist = this.checkDuplicatedEmail(payload.email);
+    const isEmailExist = await this.checkDuplicatedEmail(payload.email);
     if (isEmailExist) {
       throw new BadRequestException('Email already exists');
     }
 
     try {
-      const model = new this.userModel(payload);
+      const model = new this.userModel({
+        ...payload,
+        password: await this.hashPassword(payload.password),
+      });
       const userDocument: UserDocument = await model.save();
       return await this.findById(userDocument._id.toString());
     } catch (error: any) {

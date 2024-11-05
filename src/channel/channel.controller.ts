@@ -9,7 +9,6 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-
 import * as dotenv from 'dotenv';
 import { ChannelService } from './channel.service';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
