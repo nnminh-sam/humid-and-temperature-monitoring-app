@@ -44,7 +44,7 @@ export class ChannelController {
     @RequestedUser() user: any,
     @Body() createChannelDto: CreateChannelDto,
   ) {
-    return await this.channelService.create(user, createChannelDto);
+    return await this.channelService.create(user.id, createChannelDto);
   }
 
   @Patch(':id')
