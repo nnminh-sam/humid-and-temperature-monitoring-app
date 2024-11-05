@@ -21,12 +21,12 @@ export class FeedController {
 
   @Get('/create')
   async createFeedByWriteKey(
-    @Query('channelId') channelId: string,
-    @Query('writeKey') writeKey: string,
+    @Query('channel-id') channelId: string,
+    @Query('write-key') writeKey: string,
     @Query('temperature') temperature: number,
     @Query('humidity') humidity: number,
-    @Query('temperatureThreshold') temperatureThreshold: number,
-    @Query('humidityThreshold') humidityThreshold: number,
+    @Query('temperature-threshold') temperatureThreshold: number,
+    @Query('humidity-threshold') humidityThreshold: number,
   ) {
     return await this.feedService.createByWriteKey(writeKey, {
       channelId,
@@ -39,12 +39,12 @@ export class FeedController {
 
   @Get('/read')
   async findFeedsByReadKey(
-    @Query('channelId') channelId: string,
-    @Query('readKey') readKey: string,
+    @Query('channel-id') channelId: string,
+    @Query('read-key') readKey: string,
     @Query('page') page: number,
     @Query('size') size: number,
-    @Query('sortBy') sortBy: string,
-    @Query('orderBy') orderBy: string,
+    @Query('sort-by') sortBy: string,
+    @Query('order-by') orderBy: string,
   ) {
     return await this.feedService.findByReadKey(channelId, readKey, {
       page: page || 1,

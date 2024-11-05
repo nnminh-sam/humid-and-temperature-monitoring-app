@@ -61,7 +61,10 @@ export class FeedService {
 
   async create(payload: CreateFeedDto) {
     try {
-      const feedModel = new this.feedModel(payload);
+      const feedModel = new this.feedModel({
+        ...payload,
+        channel: payload.channelId,
+      });
       const feedDocument: FeedDocument = await feedModel.save();
       return await this.findById(feedDocument._id.toString());
     } catch (error: any) {
@@ -79,7 +82,7 @@ export class FeedService {
       .select('-__v')
       .populate({
         path: 'channel',
-        select: '-__v',
+        select: '-__v -writeKey -readKey',
         transform: transformMongooseDocument,
       })
       .transform(transformMongooseDocument)
@@ -101,7 +104,7 @@ export class FeedService {
       .select('-__v')
       .populate({
         path: 'channel',
-        select: '-__v',
+        select: '-__v -writeKey -readKey -createdAt -updatedAt -_id',
         transform: transformMongooseDocument,
       })
       .limit(size)
@@ -112,13 +115,15 @@ export class FeedService {
 
     return {
       data: feeds,
-      pagination: {
-        totalDocuments,
-        totalPages,
-        page,
-        size,
-        sortBy,
-        orderBy,
+      metadata: {
+        pagination: {
+          totalDocuments,
+          totalPages,
+          page,
+          size,
+          sortBy,
+          orderBy,
+        },
       },
     };
   }

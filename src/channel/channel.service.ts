@@ -94,7 +94,7 @@ export class ChannelService {
     }
   }
 
-  private async validateReadKey(channelId: string, readKey: string) {
+  async validateReadKey(channelId: string, readKey: string) {
     const channelKeys = await this.findKeysById(channelId);
     if (!channelKeys) {
       throw new NotFoundException('Channel not found');
@@ -102,7 +102,7 @@ export class ChannelService {
     return this.validateKey(channelKeys.readKey, readKey);
   }
 
-  private async validateWriteKey(channelId: string, writeKey: string) {
+  async validateWriteKey(channelId: string, writeKey: string) {
     const channelKeys = await this.findKeysById(channelId);
     if (!channelKeys) {
       throw new NotFoundException('Channel not found');
