@@ -69,6 +69,17 @@ export class UserService {
       .exec();
   }
 
+  async findByEmail(email: string): Promise<User> {
+    return await this.userModel
+      .findOne({
+        email,
+        deletedAt: null,
+      })
+      .select('-password -deletedAt -__v')
+      .transform(transformMongooseDocument)
+      .exec();
+  }
+
   async findUserDetailByEmail(email: string): Promise<User> {
     return await this.userModel
       .findOne({ email, deletedAt: null })

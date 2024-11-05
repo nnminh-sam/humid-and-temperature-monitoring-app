@@ -1,15 +1,9 @@
-import { IsPositive } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class UpdateChannelDto {
-  @IsPositive()
-  temperature: number;
+  @IsOptional()
+  name: string;
 
-  @IsPositive()
-  humidity: number;
-
-  @IsPositive()
-  temperatureThreshold: number;
-
-  @IsPositive()
-  humidityThreshold: number;
+  @IsOptional()
+  description: string;
 }

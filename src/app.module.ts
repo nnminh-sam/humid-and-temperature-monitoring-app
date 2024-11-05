@@ -4,6 +4,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ChannelModule } from './channel/channel.module';
+import { FeedModule } from './feed/feed.module';
 import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -22,6 +23,7 @@ dotenv.config();
     UserModule,
     AuthModule,
     ChannelModule,
+    FeedModule,
   ],
 })
 export class AppModule {
