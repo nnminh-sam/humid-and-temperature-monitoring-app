@@ -16,6 +16,7 @@ import { ChannelService } from 'src/channel/channel.service';
 import { PopulatedChannel } from 'src/channel/entities/channel.entity';
 import { SocketGateway } from 'src/socket-gateway/entities/socket-gateway.entity';
 import { SocketGatewayGateway } from 'src/socket-gateway/socket-gateway.gateway';
+import { create } from 'domain';
 
 @Injectable()
 export class FeedService {
@@ -131,6 +132,36 @@ export class FeedService {
           orderBy,
         },
       },
+    };
+  }
+
+  async findCurrentThresholds(channelId: string, readKey: string) {
+    const channel: PopulatedChannel =
+      await this.channelService.findById(channelId);
+    if (!channel) {
+      throw new NotFoundException('Channel not found');
+    }
+
+    if (channel.readKey !== readKey) {
+      throw new UnauthorizedException('Unauthorized read key');
+    }
+
+    console.log(channel);
+
+    const latestFeed = await this.feedModel
+      .find({
+        channel: channelId,
+        temperature: { $exists: true },
+        humidity: { $exists: true },
+      })
+      .sort({ createdAt: -1 })
+      .limit(1)
+      .select('-__v')
+      .transform((doc: any) => doc.map(transformMongooseDocument))
+      .exec();
+    return {
+      temperatureThreshold: latestFeed[0].temperatureThreshold,
+      humidityThreshold: latestFeed[0].humidityThreshold,
     };
   }
 }

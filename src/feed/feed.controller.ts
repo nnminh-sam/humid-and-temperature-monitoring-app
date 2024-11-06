@@ -54,6 +54,14 @@ export class FeedController {
     });
   }
 
+  @Get('/thresholds')
+  async findCurrentThresholds(
+    @Query('channel-id') channelId: string,
+    @Query('read-key') readKey: string,
+  ) {
+    return await this.feedService.findCurrentThresholds(channelId, readKey);
+  }
+
   @Get(':id')
   @UseGuards(JwtGuard)
   async findById(@Param('id') id: string) {
