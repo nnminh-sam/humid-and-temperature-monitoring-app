@@ -7,8 +7,15 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { PopulatedFeed } from 'src/feed/entities/feed.entity';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: {
+    origin: 'http://localhost:5173',
+    allowedHeaders: '*',
+  },
+})
 export class SocketGatewayGateway {
   private readonly logger = new Logger(SocketGatewayGateway.name);
 

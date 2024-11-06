@@ -113,8 +113,8 @@ export class FeedService {
         select: '-__v -writeKey -readKey -createdAt -updatedAt -_id',
         transform: transformMongooseDocument,
       })
-      .limit(size)
-      .skip(skip)
+      // .limit(size)
+      // .skip(skip)
       .sort({ [sortBy]: orderBy.toLowerCase() === 'desc' ? -1 : 1 })
       .transform((doc: any) => doc.map(transformMongooseDocument))
       .exec()) as PopulatedFeed[];
