@@ -65,7 +65,10 @@ export class ChannelController {
   @Get()
   @UseGuards(JwtGuard)
   async findAll(@RequestedUser() user: any) {
-    return await this.channelService.findAll(user.id);
+    return {
+      data: await this.channelService.findAll(user.id),
+      metadata: null,
+    };
   }
 
   @Post()
