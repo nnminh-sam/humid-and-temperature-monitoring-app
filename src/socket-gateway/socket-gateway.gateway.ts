@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import {
   WebSocketGateway,
   SubscribeMessage,
@@ -9,6 +10,8 @@ import { PopulatedFeed } from 'src/feed/entities/feed.entity';
 
 @WebSocketGateway()
 export class SocketGatewayGateway {
+  private readonly logger = new Logger(SocketGatewayGateway.name);
+
   @WebSocketServer()
   private readonly server: Server;
 
@@ -16,9 +19,11 @@ export class SocketGatewayGateway {
   joinRoom(client: Socket, payload: Record<string, string>) {
     const { channelId } = payload;
     client.join(channelId);
+    this.logger.log(`Client joined room: ${channelId}`);
   }
 
   create(channelId: string, @MessageBody() newFeed: PopulatedFeed) {
     this.server.to(channelId).emit('newFeed', newFeed);
+    this.logger.log(`New feed created in room: ${channelId}`);
   }
 }
