@@ -14,6 +14,8 @@ import { transformMongooseDocument } from 'src/mongoose/mongoose.service';
 import { PaginationDto } from '../helper/api/pagination.dto';
 import { ChannelService } from 'src/channel/channel.service';
 import { PopulatedChannel } from 'src/channel/entities/channel.entity';
+import { SocketGateway } from 'src/socket-gateway/entities/socket-gateway.entity';
+import { SocketGatewayGateway } from 'src/socket-gateway/socket-gateway.gateway';
 
 @Injectable()
 export class FeedService {
@@ -24,6 +26,8 @@ export class FeedService {
     private readonly feedModel: Model<FeedDocument>,
 
     private readonly channelService: ChannelService,
+
+    private readonly socketGateway: SocketGatewayGateway,
   ) {}
 
   async createByWriteKey(writeKey: string, payload: CreateFeedDto) {
@@ -66,7 +70,9 @@ export class FeedService {
         channel: payload.channelId,
       });
       const feedDocument: FeedDocument = await feedModel.save();
-      return await this.findById(feedDocument._id.toString());
+      const newFeed = await this.findById(feedDocument._id.toString());
+      this.socketGateway.create(payload.channelId, newFeed);
+      return newFeed;
     } catch (error: any) {
       this.logger.fatal(error);
       throw new InternalServerErrorException(

@@ -4,6 +4,7 @@ import { FeedController } from './feed.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Feed, FeedSchema } from './entities/feed.entity';
 import { ChannelModule } from 'src/channel/channel.module';
+import { SocketGatewayModule } from 'src/socket-gateway/socket-gateway.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ChannelModule } from 'src/channel/channel.module';
       },
     ]),
     ChannelModule,
+    SocketGatewayModule,
   ],
   providers: [FeedService],
   controllers: [FeedController],
